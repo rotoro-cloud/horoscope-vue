@@ -90,16 +90,17 @@ pisces
 
 
 
-  const getSign = async (sign) => {
+  const getSign = async (signRequest) => {
     try {
       const res = await axios.get('https://horoscope-astrology.p.rapidapi.com/sign', {
         headers: {
           'X-RapidAPI-Key': '1337dfcf18msh684cd32d7f3ee2ap1e6cb8jsn15b4dda73e1b',
           'X-RapidAPI-Host': 'horoscope-astrology.p.rapidapi.com'
         },
-        params: { s: sign }
+        params: { s: signRequest }
       })
       sign.value = res.data
+      
     } catch (error) {
       console.log(error);
     }

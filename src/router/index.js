@@ -19,7 +19,7 @@ const router = createRouter({
       component: TarotView
     },
     {
-      path: '/sign',
+      path: '/:sing',
       name: 'sign',
       component: SignView
     },
