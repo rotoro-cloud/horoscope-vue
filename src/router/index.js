@@ -24,7 +24,7 @@ const router = createRouter({
       component: SignView
     },
     {
-      path: '/numerology',
+      path: '/numerology/:id',
       name: 'numerology',
       component: NumerologyView
     },
