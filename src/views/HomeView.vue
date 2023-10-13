@@ -1,10 +1,47 @@
 <template>
   <section class="hero">
     <div class="hero_context">
-      <!-- <h1>Horoscope</h1> -->
+      <h1>Daily Horoscope</h1>
       <p>
         <i>"{{ store.dailyphraseData.daily }}"</i>
       </p>
+      <div class="daily">
+        <form @submit.prevent="handleSubmit">
+          <select v-model="daily.sign" :style="{borderColor: error}" @change="onChangeError">
+            <option value="" selected>Choose the sign</option>
+            <option v-for="item in signs" :value="item">
+              {{ item.charAt(0).toLocaleUpperCase() + '' + item.slice(1) }}
+            </option>
+          </select>
+          <div class="cta">
+            <button>Click</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="numerology">
+    <div class="numerology_hero">
+      <div class="numerolgy_context">
+        <h1>Numerology</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi iste
+          odit perspiciatis! Earum consequuntur, molestias iusto officia fugiat
+          at eum aliquam soluta expedita. Iste tenetur doloremque architecto et
+          pariatur id!
+        </p>
+        <!-- <div class="cta"> -->
+
+        <div class="cta">
+          <a v-for="item in numeros.length" :href="'/numerology/' + item">{{
+            item
+          }}</a>
+        </div>
+
+        <!-- </div> -->
+      </div>
+      <div class="imagen"></div>
     </div>
   </section>
 
@@ -48,52 +85,51 @@
       </a>
     </div>
   </section>
-
-  <section class="numerology">
-    <div class="numerology_hero">
-      <div class="numerolgy_context">
-        <h1>Numerology</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi iste
-          odit perspiciatis! Earum consequuntur, molestias iusto officia fugiat
-          at eum aliquam soluta expedita. Iste tenetur doloremque architecto et
-          pariatur id!
-        </p>
-        <div class="cta">
-          <a href="/numerology/1">1</a>
-          <a href="/numerology/2">2</a>
-          <a href="/numerology/3">3</a>
-          <a href="/numerology/4">4</a>
-          <a href="/numerology/5">5</a>
-          <a href="/numerology/6">6</a>
-          <a href="/numerology/7">7</a>
-          <a href="/numerology/8">7</a>
-          <a href="/numerology/9">9</a>
-        </div>
-      </div>
-      <div class="imagen"></div>
-    </div>
-  </section>
-
-  <section class="tarot">
-    <div class="tarot_content">
-      <h1>Tarot</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt
-        expedita consectetur in sapiente tempore aut at nihil, nisi nulla
-        cupiditate ipsum ex consequatur magni reiciendis, velit maxime nobis
-        dolor aperiam.
-      </p>
-      <div class="cta_tarot">
-        <a href="/tarot">Lanzar Cartas</a>
-      </div>
-    </div>
-  </section>
 </template>
 
 <script setup>
+import {ref} from 'vue';
 import {useHoroscopeStore} from '../stores/horoscope.js';
+import {useRouter} from 'vue-router';
+
 const store = useHoroscopeStore();
+const router = useRouter();
+let error = ref("white");
+let numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let signs = [
+  'aries',
+  'taurus',
+  'gemini',
+  'cancer',
+  'leo',
+  'virgo',
+  'libra',
+  'scorpio',
+  'sagittarius',
+  'capricorn',
+  'aquarius',
+  'pisces',
+];
+/* La api solo funciona si es con el valor today */
+const daily = ref({
+  sign: '',
+  day: 'today',
+});
+
+const onChangeError=()=>{
+  error.value=""
+}
+
+const handleSubmit = () => {
+  console.log(daily.value);
+  if (daily.value.sign === '') {
+    return (error.value = 'red');
+  }
+  router.push({
+    path: '/daily',
+    query: daily.value,
+  });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -139,17 +175,54 @@ $signs: aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius,
     width: 90%;
     display: grid;
     grid-template-rows: max-content max-content;
-    gap: 3rem;
+    gap: 1.3rem;
 
-    /* & h1 {
+    h1 {
       text-align: center;
       font-size: 5rem;
       color: aliceblue;
-    } */
+    }
     p {
       text-align: center;
-      font-size: 2rem;
+      font-size: 1.2rem;
       color: aliceblue;
+    }
+
+    .daily {
+      text-align: center;
+      padding: 1.5rem;
+      select {
+        padding: 0.6rem;
+        border-radius: 20px;
+        border: 1px solid aliceblue;
+        color: aliceblue;
+        background-color: transparent;
+        margin: 0rem 0.3rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        option {
+          color: black;
+        }
+      }
+      select:hover {
+        background-color: aliceblue;
+        color: black;
+      }
+      button {
+        width: 10%;
+        background-color: transparent;
+        border: 1px solid aliceblue;
+        padding: 0.6rem;
+        margin: 0.7rem 0.3rem;
+        color: aliceblue;
+        border-radius: 50px;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: aliceblue;
+        color: black;
+      }
     }
   }
 }
@@ -211,7 +284,7 @@ $signs: aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius,
         color: aliceblue;
       }
       .cta {
-        width: 80%;
+        width: 100%;
         margin-top: 1rem;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -245,54 +318,6 @@ $signs: aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius,
     border-radius: 10px;
     width: 100%;
     height: 100%;
-  }
-}
-
-.tarot {
-  width: 100%;
-  @include imagenFondo('tarot.jpg');
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem;
-  .tarot_content {
-    margin: 0 auto;
-    width: 80%;
-    display: grid;
-    place-items: center;
-    gap: 1.5rem;
-    padding: 3rem;
-
-    h1 {
-      font-size: 3rem;
-      color: aliceblue;
-    }
-    p {
-      font-size: 1.3rem;
-      color: aliceblue;
-    }
-    .cta_tarot {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 1rem;
-      a {
-        padding: 1rem 1.7rem;
-        border-radius: 50px;
-        text-decoration: none;
-        border: 1px solid aliceblue;
-        background-color: transparent;
-        cursor: pointer;
-        color: aliceblue;
-        transition: all 0.5s;
-      }
-
-      a:hover {
-        background-color: white;
-        color: black;
-      }
-    }
   }
 }
 
