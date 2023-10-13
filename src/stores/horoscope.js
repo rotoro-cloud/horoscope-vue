@@ -57,20 +57,7 @@ export const useHoroscopeStore = defineStore('horoscope', () => {
   }
 
 
-  const getDailyphrase = async () => {
-    try {
-      const res = await axios.get('https://horoscope-astrology.p.rapidapi.com/dailyphrase', {
-        headers: {
-          'X-RapidAPI-Key': import.meta.env.VITE_API_KEY,
-          'X-RapidAPI-Host': import.meta.env.VITE_API_URL
-        }
-      })
-      dailyphrase.value = res.data
-    } catch (error) {
-      console.log(error);
-    }
-
-  }
+  
 
   /* Del 1 al 9 */
   const getNumerology = async (numero = 1) => {

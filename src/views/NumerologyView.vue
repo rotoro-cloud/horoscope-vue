@@ -9,11 +9,10 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import {useHoroscopeStore} from '../stores/horoscope.js';
+import {useNumerologyStore} from '../stores/numerology.js';
 import { useRoute } from 'vue-router';
-const store = useHoroscopeStore();
+const store = useNumerologyStore();
 const route=useRoute()
-/* console.log(route.params.id); */
 
 onMounted(()=>{
   store.getNumerology(route.params.id)
@@ -38,7 +37,7 @@ onMounted(()=>{
 .hero_numero{
   min-height: 100vh;
   width: 100%;
-  @include imagenFondo("../../public/numerologyFondo.jpg");
+  @include imagenFondo("/numerologyFondo.jpg");
   display: flex;
   justify-content: center;
   align-items: center;

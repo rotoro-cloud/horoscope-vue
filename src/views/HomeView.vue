@@ -1,23 +1,10 @@
 <template>
   <section class="hero">
     <div class="hero_context">
-      <h1>Daily Horoscope</h1>
+      <h1>Horoscope</h1>
       <p>
         <i>"{{ store.dailyphraseData.daily }}"</i>
       </p>
-      <div class="daily">
-        <form @submit.prevent="handleSubmit">
-          <select v-model="daily.sign" :style="{borderColor: error}" @change="onChangeError">
-            <option value="" selected>Choose the sign</option>
-            <option v-for="item in signs" :value="item">
-              {{ item.charAt(0).toLocaleUpperCase() + '' + item.slice(1) }}
-            </option>
-          </select>
-          <div class="cta">
-            <button>Click</button>
-          </div>
-        </form>
-      </div>
     </div>
   </section>
 
@@ -31,15 +18,12 @@
           at eum aliquam soluta expedita. Iste tenetur doloremque architecto et
           pariatur id!
         </p>
-        <!-- <div class="cta"> -->
-
         <div class="cta">
           <a v-for="item in numeros.length" :href="'/numerology/' + item">{{
             item
           }}</a>
         </div>
 
-        <!-- </div> -->
       </div>
       <div class="imagen"></div>
     </div>
@@ -47,41 +31,8 @@
 
   <section class="hero_signos">
     <div class="signos">
-      <a href="/aries" class="imagen_container"
-        ><div class="aries imagen_container"></div
-      ></a>
-      <a href="/taurus" class="imagen_container"
-        ><div class="taurus imagen_container"></div
-      ></a>
-      <a href="/gemini" class="imagen_container">
-        <div class="gemini imagen_container"></div>
-      </a>
-      <a href="/cancer" class="imagen_container">
-        <div class="cancer imagen_container"></div>
-      </a>
-      <a href="/leo" class="imagen_container">
-        <div class="leo imagen_container"></div>
-      </a>
-      <a href="/virgo" class="imagen_container">
-        <div class="virgo imagen_container"></div>
-      </a>
-      <a href="/libra" class="imagen_container">
-        <div class="libra imagen_container"></div>
-      </a>
-      <a href="/scorpio" class="imagen_container">
-        <div class="scorpio imagen_container"></div>
-      </a>
-      <a href="/sagittarius" class="imagen_container">
-        <div class="sagittarius imagen_container"></div>
-      </a>
-      <a href="/capricorn" class="imagen_container">
-        <div class="capricorn imagen_container"></div>
-      </a>
-      <a href="/aquarius" class="imagen_container">
-        <div class="aquarius imagen_container"></div>
-      </a>
-      <a href="/pisces" class="imagen_container">
-        <div class="pisces imagen_container"></div>
+      <a v-for="sign in signs" :href="'/'+sign" class="imagen_container">
+      <div :class="sign +' imagen_container'"></div>
       </a>
     </div>
   </section>
@@ -89,10 +40,10 @@
 
 <script setup>
 import {ref} from 'vue';
-import {useHoroscopeStore} from '../stores/horoscope.js';
+import {useDailyPhraseStore} from '../stores/dailyphrase.js';
 import {useRouter} from 'vue-router';
 
-const store = useHoroscopeStore();
+const store = useDailyPhraseStore();
 const router = useRouter();
 let error = ref("white");
 let numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9];
